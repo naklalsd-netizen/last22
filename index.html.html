@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Anik Trader's LTD</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #b2dfdb, #e0f7fa);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .welcome {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .welcome h1 {
+      color: #004d40;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+    .date-bar, .clock-bar {
+      background-color: #ffffffdd;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 18px;
+      color: #004d40;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: 300px;
+      text-align: center;
+    }
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: #00695c;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background: #00796b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-box button:hover {
+      background: #004d40;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  
+  <marquee direction="right" behavior="scroll" scrollamount="5" style="font-size: 20px; color: #004d40; margin-bottom: 20px;">
+    স্বাগতম আপনাকে "অনিক ট্রেডার্স লিমিটেড" — আপনার দিনটি শুভ হউক।
+  </marquee>
+
+
+  <div class="date-bar" id="banglaDate"></div>
+  <div class="clock-bar" id="banglaClock"></div>
+
+  <div class="login-box">
+    <h2>লগইন করুন</h2>
+    <input type="text" id="username" placeholder="ইউজারনেম লিখুন" />
+    <input type="password" id="password" placeholder="পাসওয়ার্ড লিখুন" />
+    <button onclick="login()">🔐 লগইন</button>
+    <div class="error" id="errorMsg"></div>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+
+      if (user === "admin" && pass === "Anik7820**") {
+        window.location.href = "Stock final.html";
+      } else {
+        errorMsg.textContent = "❌ ভুল ইউজারনেম অথবা পাসওয়ার্ড!";
+      }
+    }
+
+    const banglaNums = ["০","১","২","৩","৪","৫","৬","৭","৮","৯"];
+
+    function convertToBanglaNumber(num) {
+      return num.toString().split('').map(d => banglaNums[parseInt(d)]).join('');
+    }
+
+    function getBanglaDate() {
+      const days = ["রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার", "শনিবার"];
+      const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+      const today = new Date();
+      const dayName = days[today.getDay()];
+      const date = convertToBanglaNumber(today.getDate());
+      const month = months[today.getMonth()];
+      const year = convertToBanglaNumber(today.getFullYear());
+      return `${dayName}, ${date} ${month} ${year}`;
+    }
+
+    function updateClock() {
+      const now = new Date();
+      let hour = now.getHours();
+      let minute = now.getMinutes();
+      let second = now.getSeconds();
+
+      let period = "";
+      if (hour >= 4 && hour < 12) period = "সকাল";
+      else if (hour >= 12 && hour < 16) period = "দুপুর";
+      else if (hour >= 16 && hour < 20) period = "বিকেল";
+      else period = "রাত";
+
+      hour = hour % 12 || 12;
+
+      const time = `${period} ${convertToBanglaNumber(hour)}:${convertToBanglaNumber(minute.toString().padStart(2, '0'))}:${convertToBanglaNumber(second.toString().padStart(2, '0'))}`;
+      document.getElementById("banglaClock").textContent = time;
+    }
+
+    document.getElementById("banglaDate").textContent = getBanglaDate();
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
